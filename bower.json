@@ -1,0 +1,27 @@
+{
+  "name": "gallery_front",
+  "version": "0.0.0",
+  "authors": [
+    "jrhoads <joseph_rhoads@brown.edu>"
+  ],
+  "description": "Front end for distributed gallery",
+  "main": "main.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.9",
+    "sortable": "~0.6.0",
+    "ui-router": "~0.2.13",
+    "angular-resource": "~1.3.9",
+    "angular-ui-select": "~0.9.6",
+    "angular-ui-sortable": "~0.13.3"
+  }
+}

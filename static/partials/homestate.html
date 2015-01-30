@@ -1,0 +1,11 @@
+<h1>Presentations</h1>
+
+<ul>
+  <li ng-repeat="pres in pl.presentations">
+  <h2 >{{pres.name}} <a class="btn btn-primary" ui-sref="presentation-view({presentationID:pres.id})">View</a>
+  <a class="btn btn-success" ui-sref="presentation-edit({presentationID:pres.id})">Edit</a></h2>
+  <ul>
+    <li ng-repeat="slide in pres.slides"> {{slide.pid}} / {{slide.durration}} ms</li>
+  </ul>
+  </li>
+</ul>

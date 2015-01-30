@@ -1,0 +1,44 @@
+<h1>Edit a presentation</h1>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label>Name:
+      <input type="text" class="form-control" name="name" ng-model="editor.presentation.name" />
+    </label>
+  </div>
+  <fieldset>
+    <legend>Slides</legend>
+  <div class="" ng-repeat="slide in editor.presentation.slides">
+    <label >PID  
+    <ui-select class="" name="pid" ng-model="slide.pid" style='min-width: 800px;'>
+      <ui-select-match placeholder="Select item">{{$select.selected.pid || slide.pid}}</ui-select-match>
+      <ui-select-choices repeat="doc.pid as doc in editor.repository_items"
+        refresh="editor.searchItems($select.search)"
+        refresh-delay="7"
+        reset-search-input=true>
+        <div class="container-fluid big-drop">
+          <div class="row">
+            <div class="col-sm-2"><img class="img-responsive img-thumbnail" ng-src="http://repository.library.brown.edu/viewers/image/thumbnail/{{doc.pid}}" /></div>
+            <div class="col-sm-10">
+              <div class="row">
+                <div class="col-sm-6"><b>{{doc.primary_title}}</b></div>
+                <div class="col-sm-6">  {{doc.pid}}  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--{{bdr_item.primary_title}}-->
+      </ui-select-choices>
+    </ui-select>
+    </label>
+    <label>Durration  <input type="number" class="form-control" name="durration" ng-model="slide.durration"/></label>
+  </div>
+<a class="btn btn-primary" ng-click="editor.addSlide()">Add Slide</a>
+  </fieldset>
+</form>
+<hr />
+<h2>Name: <small>{{editor.presentation.name}}<small></h2>
+<h3>Slides:</h3>
+<ul>
+  <li ng-repeat="slide in editor.presentation.slides">{{slide.pid}} / {{slide.durration}}</li>
+</ul>
+<hr />

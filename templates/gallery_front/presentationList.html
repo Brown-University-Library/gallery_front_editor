@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Presentations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Le styles -->
+
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" type="text/css"/>
+
+  <!--<link rel="stylesheet" href="css/style.css" type="text/css" />-->
+
+</head>
+
+<body class="my-cloak">
+
+ <div class="navbar navbar-default navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".header-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">The Distributed Gallery</a>
+    </div>
+
+    <div class="collapse navbar-collapse header-collapse">
+      <ul class="nav navbar-nav">
+
+        <li>
+          <a href="/editor">Your Presentations</a>
+        </li>
+      
+       <li>
+          <a href="/editor/add/presentation">Create A New Presentation</a>
+        </li>
+
+        <li>
+          <a id="logout" href="#">Sign out</a>
+        </li>
+
+      </ul>
+
+      <a class="navbar-text navbar-right" href = "https://repository.library.brown.edu/studio/collections/">Brown Digital Repository</a>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="container presentation" ng-app="presentationBuilder" ng-controller="presentationListCtrl">
+
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Presentation Name:</th>
+        <th>View</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+
+    </thead>
+    <tbody ng-model="presentations">
+      <tr ng-repeat="presentation in presentations" >
+        <td>{{presentation.presentationName}}</td>
+        <td><a href="/presentation/{{presentation.id}}" target="_blank">View</a></td>
+        <td><a href="/editor/{{presentation.id}}">edit</a></td>
+        <td><a href ng-click="deletePresentation(presentation)">X</a></td>
+
+      </tr>
+    </tbody>
+  </table>
+
+
+    <!--
+    <flash-messages> </flash-messages>
+    <div><h2>Users Array:</h2>{{users}}</div>
+  -->
+</div> <!-- /container -->
+<!--
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
+-->
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components//angular/angular.min.js"></script>
+
+<script src="/js/sortable.js"></script>
+<script src="/js/angularPresentationBuilder.js"></script>
+
+
+<script src="https://login.persona.org/include.js"></script>
+<script src="/js/personaClient.js"></script>
+</body>
+</html>
