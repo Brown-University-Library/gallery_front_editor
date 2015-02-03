@@ -1,12 +1,14 @@
-<h1>Edit a presentation</h1>
+<h1>{{editor.title}}</h1>
 <form class="form-horizontal">
-  <div class="form-group">
-    <label>Name:
+  <fieldset>
+    <legend>Name</legend>
       <input type="text" class="form-control" name="name" ng-model="editor.presentation.name" />
-    </label>
-  </div>
+  </fieldset>
   <fieldset>
     <legend>Slides</legend>
+ <div ng-if="editor.presentation.slides.length===0">
+   <h4>Please add one or more slides to this presentation</h4>
+ </div>
   <div class="" ng-repeat="slide in editor.presentation.slides">
     <label >PID  
     <ui-select class="" name="pid" ng-model="slide.pid" style='min-width: 800px;'>
@@ -26,13 +28,14 @@
             </div>
           </div>
         </div>
-        <!--{{bdr_item.primary_title}}-->
       </ui-select-choices>
     </ui-select>
     </label>
     <label>Durration  <input type="number" class="form-control" name="durration" ng-model="slide.durration"/></label>
+    <a class="btn btn-warning" ng-click="editor.removeSlide($index)">Remove</a>
   </div>
-<a class="btn btn-primary" ng-click="editor.addSlide()">Add Slide</a>
+  <a class="btn btn-primary" ng-click="editor.save()">Save Presentation</a>
+  <a class="btn btn-success" ng-click="editor.addSlide()">Add Slide</a>
   </fieldset>
 </form>
 <hr />

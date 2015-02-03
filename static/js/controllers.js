@@ -5,10 +5,6 @@ angular
    function($resourceProvider) {
      $resourceProvider.defaults.stripTrailingSlashes = false;
    }])
-  .config(['$httpProvider',
-   function($httpProvider) { 
-    $httpProvider.defaults.headers.common['X-CSRFToken'] = '{{ csrf_token|escapejs }}';
-   }])
    //Factories
   .factory('Repository',
            ['$http',
@@ -40,7 +36,10 @@ angular
   .factory('Presentations', 
            ['$resource',
     function($resource) { 
-      return $resource('/api/presentations/:id/', {id: '@id'});
+      return $resource('/api/programs/:id/',
+                       {id: '@id'},
+                       {"update": {method: "PUT"}}
+                      );
     }])
   .factory('Slide', 
            ['$resource',
@@ -50,20 +49,31 @@ angular
 
   //Controllers
   .controller('PresentationEditController',
-              ['Presentations', '$stateParams', 'Repository', '$scope',
-       function(Presentations,   $stateParams,   Repository,   $scope){
+              ['Presentations', '$state', '$stateParams', 'Repository',
+       function(Presentations,   $state,   $stateParams,   Repository){
+         var gotoPresentations = function(){
+               $state.go('presentations');
+         }
+
          var editor = this;
-    editor.presentation = Presentations.get({id:$stateParams.presentationID});
-    editor.repository_items=[];
-    editor.searchItems = function(query){
-      Repository.search(query).success(function(data){
-        editor.repository_items = data.response.docs || [];
-        console.log(editor.repository_items );
-      });
-    };
-    editor.addSlide = function(){
-      editor.presentation.slides.push({"durration":30});
-    };
+         editor.title = "Create a new presentation";
+         editor.presentation = Presentations.get({id:$stateParams.presentationID});
+
+         editor.repository_items=[];
+         editor.searchItems = function(query){
+            Repository.search(query).success(function(data){
+              editor.repository_items = data.response.docs || [];
+            });
+         };
+        editor.addSlide = function(){
+          editor.presentation.slides.push({"durration":30});
+        };
+        editor.removeSlide = function(idx){
+          editor.presentation.slides.splice(idx,1);
+        };
+        editor.save = function(){
+          editor.presentation.$update().then(gotoPresentations);
+        };
   }])
   .controller('PresentationViewController',
               ['Presentations', '$stateParams',
@@ -74,9 +84,30 @@ angular
        }]
   )
   .controller('PresentationNewController',
-              ['Presentations',
-       function(Presentations){
-         this.presentations = Presentations.query();
+              ['Presentations', '$state', 'Repository',
+       function(Presentations,   $state,   Repository){
+         var gotoPresentations = function(){
+               $state.go('presentations');
+         }
+
+         var editor = this;
+         editor.title = "Create a new presentation";
+         editor.presentation = {slides:[]};
+
+         editor.repository_items=[];
+         editor.searchItems = function(query){
+            Repository.search(query).success(function(data){
+              editor.repository_items = data.response.docs || [];
+            });
+         };
+        editor.addSlide = function(){
+          editor.presentation.slides.push({"durration":30});
+        };
+
+        editor.save = function(){
+          Presentations.save(editor.presentation, gotoPresentations);
+
+        };
        }])
   .controller('PresentationListController',
               ['Presentations',
@@ -84,3 +115,9 @@ angular
          this.presentations = Presentations.query();
        }]
   );
+ //.run([
+    //'$http', 
+    //'$cookies', 
+    //function($http, $cookies) {
+        //$http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+    //}]);

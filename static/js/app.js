@@ -1,4 +1,4 @@
-var dgApp = angular.module('dgApp', ['dgApp.controllers', 'ui.router' ,'ui.select']);
+var dgApp = angular.module('dgApp', ['dgApp.controllers', 'ngCookies','ui.router' ,'ui.select']);
 dgApp.constant('settings', {
   STATIC_URL: '/static/'
 });
@@ -38,12 +38,16 @@ dgApp.config(function($stateProvider, $urlRouterProvider,  settings) {
     .state({
       name: 'new-presentation',
       url: "/presentations/new",
-      templateUrl: settings.STATIC_URL+"partials/presentation_new.html",
-      controller: 'PresentationNewController as creator'
+      templateUrl: settings.STATIC_URL+"partials/presentation_edit.html",
+      controller: 'PresentationNewController as editor'
     });
   $urlRouterProvider.otherwise("/presentations");
 });
-dgApp.run(['$state', function($state){
-    console.log($state.get());
 
-}]);
+dgApp.run([
+    '$http', 
+    '$cookies', 
+    function($http, $cookies) {
+        $http.defaults.headers.put['X-CSRFToken'] = $cookies.csrftoken;
+        $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+    }]);
